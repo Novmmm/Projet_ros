@@ -1,28 +1,23 @@
 import rclpy
 from rclpy.node import Node
-from exemple  import Int64
+from example_interfaces.srv import Trigger
 
-
-class Portail(Node):
+class BP(Node):
 
     def __init__(self):
-        super().__init__('Portail')
-        self.publisher_ = self.create_publisher(Int64, 'data_bp_portail', 10)
-        timer_period = 2 # seconds
-        self.timer = self.create_timer(timer_period, self.timer_callback)
-        self.i = 1
+        super().__init__('data_bp')
+        self.srv = self.create_service(Trigger, 'data_bp', self.bp_callback)
 
-    def timer_callback(self):
-        msg = Int64()
-        msg.data = self.i
-        self.publisher_.publish(msg)
-        self.get_logger().info('Valeur capteur Presence Portail : "%d"' % msg.data)
+    def bp_callback(self,request,response):
+    	self.log('le bp a ete presse')
+    	response = 1 
+    	return response
 
 
 def main(args=None):
     rclpy.init(args=args)
 
-    portail = Portail()
+    portail = BP()
 
     rclpy.spin(portail)
 

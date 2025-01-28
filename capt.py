@@ -1,7 +1,9 @@
 import rclpy
 from rclpy.node import Node
-from exemple_interfaces.srv import Trigger
+from example_interfaces.srv import Trigger
 from std_msgs.msg import Int64
+import sys
+from std_msgs.msg import Float32
 
 class Fusion(Node):
 
@@ -22,11 +24,15 @@ class Fusion(Node):
             'data_presence_portail',
             self.listener_callback_portail,
             10)  
-        self.client = self.create_client(AddTwoInts, 'add_two_ints')
-	while not self.client.wait_for_service(timeout_sec=1.0):
-	self.get_logger().info('Waiting for service...')
-	self.request = AddTwoInts.Request()
-	             
+        self.client = self.create_client(Trigger, 'data_bp')
+        while not self.client.wait_for_service(timeout_sec=1.0):
+            self.get_logger().info('En attente du service ')
+        key = sys.stdin.read(1)
+        if key == 't':
+             self.get_logger().info('Barre espace détectée, envoi de la requête...')
+             req = Trigger.Request()
+             future = self.client.call_async(req)
+	          
         self.temp = 0
         self.lum = 0
         self.presence_portail = 0
@@ -51,12 +57,8 @@ class Fusion(Node):
         self.lum = msg.data
         if self.presence_portail == 1 : 
             #Allumage led
-            self.get_logger().info('Led allumee') 
-            self.client = self.create_client(AddTwoInts, 'add_two_ints')
-	    while not self.client.wait_for_service(timeout_sec=1.0):
-	        self.get_logger().info('Waiting for service...')
-	    self.request = AddTwoInts.Request()
-    	    
+            self.get_logger().info('Led allumee vous pouvez ouvir le portail ') 
+           	    
 	
     def listener_callback_bp_portail(self, msg):
         self.bp_portail = msg.data
