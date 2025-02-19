@@ -2,31 +2,24 @@ import rclpy
 from rclpy.node import Node
 from example_interfaces.srv import Trigger
 
-class BP(Node):
-
+class ButtonService(Node):
     def __init__(self):
         super().__init__('data_bp')
-        self.srv = self.create_service(Trigger, 'data_bp', self.bp_callback)
+        self.srv = self.create_service(Trigger, 'data_bp', self.handle_button_press)
+        self.get_logger().info("Service 'button_service' prêt à recevoir des requêtes.")
 
-    def bp_callback(self,request,response):
-    	self.log('le bp a ete presse')
-    	response = 1 
-    	return response
-
+    def handle_button_press(self, request, response):
+        self.get_logger().info('Commande du portail active')
+        response.success = True
+        response.message = "Le portail s'ouvre "
+        return response
 
 def main(args=None):
     rclpy.init(args=args)
-
-    portail = BP()
-
-    rclpy.spin(portail)
-
-    # Destroy the node explicitly
-    # (optional - otherwise it will be done automatically
-    # when the garbage collector destroys the node object)
-    portail.destroy_node()
+    node = ButtonService()
+    rclpy.spin(node)
+    node.destroy_node()
     rclpy.shutdown()
-
 
 if __name__ == '__main__':
     main()

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maison Connectée</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+        }
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        .capteur {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .capteur span {
+            margin-right: 20px;
+        }
+        .button {
+            font-size: 16px;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+    </style>
+    <script>
+        function updateData() {
+            fetch('/data')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('temperature').innerText = data.temperature + "°C";
+                    document.getElementById('luminosite').innerText = data.luminosite + "%";
+                    document.getElementById('presence').innerText = data.presence ? "Oui" : "Non";
+                })
+                .catch(error => console.error('Erreur:', error));
+        }
+
+        function toggleClim(action) {
+            fetch('/toggle_clim', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: action })
+            }).catch(error => console.error('Erreur:', error));
+        }
+
+        function toggleChauffage(action) {
+            fetch('/toggle_chauffage', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: action })
+            }).catch(error => console.error('Erreur:', error));
+        }
+
+        function toggleVolets(action) {
+            fetch('/toggle_volets', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: action })
+            }).catch(error => console.error('Erreur:', error));
+        }
+
+        setInterval(updateData, 2000);
+    </script>
+</head>
+<body>
+    <h1>🏠 Maison Connectée</h1>
+
+    <div class="capteur">
+        <span>🌡 Température :</span> 
+        <span id="temperature">--°C</span>
+        <button class="button" onclick="toggleClim('on')">Allumer Clim</button>
+        <button class="button" onclick="toggleClim('off')">Éteindre Clim</button>
+        <button class="button" onclick="toggleChauffage('on')">Allumer Chauffage</button>
+        <button class="button" onclick="toggleChauffage('off')">Éteindre Chauffage</button>
+    </div>
+
+    <div class="capteur">
+        <span>💡 Luminosité :</span> 
+        <span id="luminosite">--%</span>
+        <button class="button" onclick="toggleVolets('OPEN')">Ouvrir Volets</button>
+        <button class="button" onclick="toggleVolets('CLOSE')">Fermer Volets</button>
+    </div>
+
+    <div class="capteur">
+        <span>🚶 Présence détectée :</span> 
+        <span id="presence">--</span>
+    </div>
+</body>
+</html>
