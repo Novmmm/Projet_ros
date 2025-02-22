@@ -6,7 +6,6 @@
     <title>Maison Connectée</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
             margin: 50px;
         }
         h1 {
@@ -38,10 +37,10 @@
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById('temperature').innerText = data.temperature + "°C";
-                    document.getElementById('luminosite').innerText = data.luminosite + "%";
+                    document.getElementById('luminosite').innerText = data.luminosite + " Lum";
                     document.getElementById('presence').innerText = data.presence ? "Oui" : "Non";
                 })
-                .catch(error => console.error('Erreur:', error));
+                
         }
 
         function toggleClim(action) {
@@ -49,7 +48,7 @@
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ action: action })
-            }).catch(error => console.error('Erreur:', error));
+            })
         }
 
         function toggleChauffage(action) {
@@ -57,7 +56,7 @@
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ action: action })
-            }).catch(error => console.error('Erreur:', error));
+            })
         }
 
         function toggleVolets(action) {
@@ -65,7 +64,7 @@
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ action: action })
-            }).catch(error => console.error('Erreur:', error));
+            })
         }
 
         
@@ -85,7 +84,7 @@
 
     <div class="capteur">
         <span>💡 Luminosité :</span> 
-        <span id="luminosite">--%</span>
+        <span id="luminosite">--Lum</span>
         <button class="button" onclick="toggleVolets('OPEN')">Ouvrir Volets</button>
         <button class="button" onclick="toggleVolets('CLOSE')">Fermer Volets</button>
     </div>
