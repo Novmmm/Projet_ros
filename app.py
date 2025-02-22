@@ -25,7 +25,7 @@ class CapteursSubscriber(Node):
         # Publisher pour les commandes de contrôle
         self.clim_publisher = self.create_publisher(String, 'control_clim', 10)
         self.chauffage_publisher = self.create_publisher(String, 'control_chauffage', 10)
-        self.volets_publisher = self.create_publisher(String, 'control_volets', 10)  # Nouveau publisher pour les volets
+        self.volets_publisher = self.create_publisher(String, 'control_volets', 10) 
 
     def temperature_callback(self, msg):
         capteurs["temperature"] = msg.data
@@ -77,7 +77,7 @@ def get_data():
 @app.route('/toggle_clim', methods=['POST'])
 def control_clim():
     data = request.get_json()
-    action = data.get('action', 'on')  # Par défaut, "on" si l'action n'est pas spécifiée
+    action = data.get('action', 'on')  
     if capteurs_node:
         capteurs_node.publish_clim_command(action)
     return jsonify({"status": "success", "message": f"Climatisation {action}"})
@@ -86,7 +86,7 @@ def control_clim():
 @app.route('/toggle_chauffage', methods=['POST'])
 def control_chauffage():
     data = request.get_json()
-    action = data.get('action', 'on')  # Par défaut, "on" si l'action n'est pas spécifiée
+    action = data.get('action', 'on')  
     if capteurs_node:
         capteurs_node.publish_chauffage_command(action)
     return jsonify({"status": "success", "message": f"Chauffage {action}"})
@@ -95,7 +95,7 @@ def control_chauffage():
 @app.route('/toggle_volets', methods=['POST'])
 def control_volets():
     data = request.get_json()
-    action = data.get('action', 'OPEN')  # Par défaut, "OPEN" si l'action n'est pas spécifiée
+    action = data.get('action', 'OPEN')  
     if capteurs_node:
         capteurs_node.publish_volets_command(action)
     return jsonify({"status": "success", "message": f"Volets {action}"})
