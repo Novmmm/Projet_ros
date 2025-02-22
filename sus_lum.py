@@ -1,6 +1,6 @@
 import rclpy
 from rclpy.node import Node
-from std_msgs.msg import Float32, String  # Ajout de String pour les commandes des volets
+from std_msgs.msg import Float32, String  
 
 class Lum(Node):
 
@@ -20,8 +20,6 @@ class Lum(Node):
             'control_volets',
             self.listener_callback_volets,
             10)
-
-
 
         # Variable pour stocker l'état des volets
         self.volets_state = "CLOSE"  # Par défaut, les volets sont fermés
@@ -50,12 +48,8 @@ class Lum(Node):
 
 def main(args=None):
     rclpy.init(args=args)
-
     node = Lum()
-
     rclpy.spin(node)
-
-    # Destruction explicite du nœud
     node.destroy_node()
     rclpy.shutdown()
 
