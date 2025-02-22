@@ -14,6 +14,8 @@
   <exec_depend>rclpy</exec_depend>
   <exec_depend>std_msgs</exec_depend>
   <exec_depend>exemple_interfaces</exec_depend>
+  <exec_depend>Flask</exec_depend>
+  <exec_depend>threading</exec_depend>
   
   <export>
     <build_type>ament_python</build_type>
