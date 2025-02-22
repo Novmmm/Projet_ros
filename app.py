@@ -63,17 +63,17 @@ def start_ros2():
 
 threading.Thread(target=start_ros2, daemon=True).start()
 
-# 🖥 Route pour afficher la page HTML
+# Route pour afficher la page HTML
 @app.route('/')
 def index():
     return send_file('index.html')
 
-# 📡 API pour récupérer les valeurs des capteurs
+# récupérer les valeurs des capteurs
 @app.route('/data')
 def get_data():
     return jsonify(capteurs)
 
-# API pour contrôler la climatisation
+# contrôler la climatisation
 @app.route('/toggle_clim', methods=['POST'])
 def control_clim():
     data = request.get_json()
@@ -82,7 +82,7 @@ def control_clim():
         capteurs_node.publish_clim_command(action)
     return jsonify({"status": "success", "message": f"Climatisation {action}"})
 
-# API pour contrôler le chauffage
+# contrôler le chauffage
 @app.route('/toggle_chauffage', methods=['POST'])
 def control_chauffage():
     data = request.get_json()
@@ -91,7 +91,7 @@ def control_chauffage():
         capteurs_node.publish_chauffage_command(action)
     return jsonify({"status": "success", "message": f"Chauffage {action}"})
 
-# API pour contrôler les volets
+# contrôler les volets
 @app.route('/toggle_volets', methods=['POST'])
 def control_volets():
     data = request.get_json()
