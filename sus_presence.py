@@ -1,7 +1,7 @@
 import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Int64
-from example_interfaces.srv import Trigger  # Service standard Trigger
+from example_interfaces.srv import Trigger  
 
 class PresenceSubscriber(Node):
     def __init__(self):
