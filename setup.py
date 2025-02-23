@@ -27,6 +27,7 @@ setup(
                  'pub_presence = pkg_ros.pub_presence:main' ,
                  'sus_presence = pkg_ros.sus_presence:main' ,
                  'client_bp = pkg_ros.bp_portail:main' ,
+                 'app = pkg_ros.app:main' ,
         ],
     },
 )
